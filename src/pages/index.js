@@ -1,3 +1,4 @@
+import { graphql } from 'gatsby';
 import React from 'react';
 import Button from '../components/Button';
 import Card from '../components/Card';
@@ -10,22 +11,23 @@ import customerData from '../data/customer-data';
 import HeroImage from '../svg/HeroImage';
 import SvgCharts from '../svg/SvgCharts';
 
-export default () => (
+export default ({ data }) => (
   <Layout>
     <section className="pt-20 md:pt-40">
       <div className="container mx-auto px-8 lg:flex">
         <div className="text-center lg:text-left lg:w-1/2">
           <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-none">
-            Main title of your landing page
+            {data.allStrapiMainPage.edges[0].node.title}
           </h1>
           <p className="text-xl lg:text-2xl mt-6 font-light">
-            Free landing page template to promote your business startup and generate leads for the
-            offered services
+            {data.allStrapiMainPage.edges[0].node.sub_title}
           </p>
           <p className="mt-8 md:mt-12">
-            <Button size="lg">Get Started</Button>
+            <Button size="lg">{data.allStrapiMainPage.edges[0].node.btn_text}</Button>
           </p>
-          <p className="mt-4 text-gray-600">Sed fermentum felis ut cursu</p>
+          <p className="mt-4 text-gray-600">
+            {data.allStrapiMainPage.edges[0].node.btn_sub_title}
+          </p>
         </div>
         <div className="lg:w-1/2">
           <HeroImage />
@@ -147,3 +149,19 @@ export default () => (
     </section>
   </Layout>
 );
+
+export const pageQuery = graphql`
+  query IndexQuery {
+    allStrapiMainPage {
+      edges {
+        node {
+          id
+          title
+          sub_title
+          btn_text
+          btn_sub_title
+        }
+      }
+    }
+  }
+`
